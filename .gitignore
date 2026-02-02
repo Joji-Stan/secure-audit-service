@@ -9,3 +9,8 @@ k8s/secret.yaml
 # Logs et fichiers temporaires
 *.log
 .DS_Store
+
+# --- Terraform ---
+.terraform/
+*.tfstate
+*.tfstate.backup
