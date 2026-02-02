@@ -1,0 +1,11 @@
+# Environnement Python
+.venv/
+__pycache__/
+*.pyc
+
+# Fichiers sensibles (Secrets Kubernetes)
+k8s/secret.yaml
+
+# Logs et fichiers temporaires
+*.log
+.DS_Store

@@ -1,0 +1,6 @@
+# Acceptation du risque : Patch OS non disponible pour glibc
+CVE-2026-0861
+
+# Acceptation du risque : OpenSSL (Patch en cours de déploiement Debian)
+CVE-2025-15467
+CVE-2025-69419

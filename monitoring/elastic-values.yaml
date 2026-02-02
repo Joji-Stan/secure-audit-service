@@ -1,0 +1,25 @@
+# monitoring/elastic-values.yaml
+replicas: 1 
+minimumMasterNodes: 1
+antiAffinity: "soft"
+
+# Permet à Elastic de tourner sur un simple noeud Minikube
+clusterHealthCheckParams: "wait_for_status=yellow&timeout=1s"
+
+ressources:
+  requests:
+    memory: "512Mi"
+    cpu: "500m"
+  limits:
+    memory: "1Gi"
+    cpu: "1000m"
+
+esJavaOpts: "-Xms512m -Xms512m"
+
+volumeClaimTemplate:
+  accessModes: ["ReadWriteOnce"]
+  ressources:
+    requests:
+      storage: 1Gi
+persistence:
+  enabled: false

@@ -1,0 +1,10 @@
+ressources:
+  requests:
+    memory: "256Mi"
+    cpu: "200m"
+  limits:
+    memory: "512Mi"
+    cpu: "500m"
+
+# Kibana doit savoir où est Elasticsearch (nom du service K8s)
+elasticsearchHosts: "http://elasticsearch-master:9200"

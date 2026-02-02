@@ -1,0 +1,56 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: secure-api
+  labels:
+    app: secure-api 
+spec:
+  replicas: 2 # On demande 2 instances pour la Haute Dispo (HA)
+  selector:
+    matchLabels:
+      app: secure-api
+  template:
+    metadata:
+      labels:
+        app: secure-api
+    spec:
+      containers:
+        - name: secure-api
+          image: secure-api:v2
+          imagePullPolicy: Never # Important pour Minikube local !
+          ports:
+          - containerPort: 8080
+          resources: # Best Practice : Toujours définir des limites 
+            requests:
+              memory: "64Mi"
+              cpu: "100m"
+            limits:
+              memory: "128Mi"
+              cpu: "200m"
+          securityContext: # Hardening K8s (le retour du "Sec")
+            runAsNonRoot: true
+            runAsUser: 1001
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+                - ALL 
+          env:
+            - name: DB_HOST
+              value: "postgres-service" # Le nom du service K8s (DNS interne)
+            - name: DB_NAME
+              value: "secure_db"
+            - name: DB_USER
+              value: "appuser"
+            - name: DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: db-credentials # Nom du Secret créé à l'étape 1
+                  key: password        # Clé dans le Secret
+              
+          livenessProbe: # K8s vérifie si l'app est vivante
+            httpGet:
+              path: /health
+              port: 8080
+            initialDelaySeconds: 5
+            periodSeconds: 10
+            
